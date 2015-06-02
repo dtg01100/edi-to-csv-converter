@@ -2,6 +2,7 @@ import converter
 import os
 from Tkinter import *
 from tkFileDialog import askopenfilename
+from tkFileDialog import askdirectory
 import tkMessageBox
 from PIL import Image, ImageTk
 
@@ -27,12 +28,22 @@ cheaderscheck = IntVar() # define "Column Headers" checkbox state variable
 def select_file():
     global filename
     global var
+    global output
+    global conflict_result
     filename = askopenfilename() #open file select Dialog
     print (filename)
     if os.access(filename,os.W_OK) != True and filename != '':
-        tkMessageBox.showerror(title="Error",message="No Write Permissions For Directory") #show error if unable to write to directory
-        filename = '' #set filename to null
-    if filename != '':
+        #tkMessageBox.showerror(title="Error",message="No Write Permissions For Directory") #show error if unable to write to directory
+        conflict_result = tkMessageBox.askyesno(title="Error",message="No Write Permissions For Directory\n Would you like to change output directory?") #show error if unable to write to directory
+        if conflict_result == True:
+            output = os.path.join(askdirectory() + "/" + os.path.basename(filename) + ".csv")
+            var.set ("Origin Read Only, Exporting To " + (output))
+            print ("Now exporting to " + (output))
+        else:
+            var.set ("Origin Read Only. Directory Change Cancelled. Please Select Another File.")
+            filename = '' #set filename to null
+    if filename != '' and os.access(filename,os.W_OK) != False:
+        output = os.path.abspath(filename) + ".csv"
         var.set(filename) #set file as status contents
         print (filename) + " ready to convert"
 
@@ -43,11 +54,11 @@ def go_convert():
     global upcvarcheck
     global arecvarcheck
     global crecvarcheck
-    output = os.path.abspath(filename) + ".csv"
+    global output
     if filename != '': # if there is a file then
         converter.edi_convert(filename, output, upcvarcheck.get(), arecvarcheck.get(), crecvarcheck.get(), cheaderscheck.get()) # do conversion
-        print (filename) + " converted" # print CLI debig string
-        var.set(filename + " Converted. Select next file.") # Set status window String
+        print (output) + " converted" # print CLI debig string
+        var.set(output + " Converted. Select next file.") # Set status window String
     else:
         tkMessageBox.showerror(title="Error",message="No File Selected")  # show error
     filename = '' # set file back to Null
