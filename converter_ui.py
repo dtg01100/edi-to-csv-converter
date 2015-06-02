@@ -83,7 +83,7 @@ upc_calc_checkbutton.pack( side = LEFT)
 keep_arecords.pack(side = LEFT)
 keep_crecords.pack(side = LEFT)
 column_headers.pack(side = LEFT)
-go_button.pack( side = LEFT)
+go_button.pack( side = RIGHT)
 centerpad = Label(frame2, text="To use:", padx=100, justify = RIGHT)
 
 # packed into "frame2" order defines placement
