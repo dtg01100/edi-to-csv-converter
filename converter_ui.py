@@ -13,8 +13,8 @@ root.geometry("650x170") # Set initial window size
 root.minsize(width=650, height=170) # Set window minimal Size
 var = StringVar() # Status bar Variable
 var.set('Select File') # Set initial Status bar status
-frame = Frame(root) # IDK
-frame.pack() #IDK
+frame = Frame(root) # Set placement frame
+frame2 = Frame(root) # Set placement fram2
 
 upcvarcheck = IntVar() # define  "UPC calculation" checkbox state variable
 arecvarcheck = IntVar() # define "A record checkbox state variable
@@ -37,8 +37,8 @@ def go_convert(event):
     global upcvarcheck
     global arecvarcheck
     global crecvarcheck
-    output = os.path.abspath(filename) + ".csv" 
-    if filename != '': # if there is a file then 
+    output = os.path.abspath(filename) + ".csv"
+    if filename != '': # if there is a file then
         converter.edi_convert(filename, output, upcvarcheck.get(), arecvarcheck.get(), crecvarcheck.get()) # do conversion
         print (filename) + " converted" # print CLI debig string
         var.set(filename + " Converted. Select next file.") # Set status window String
@@ -55,22 +55,38 @@ keep_crecords = Checkbutton(frame, text="Keep \"C\" Records", variable=crecvarch
 
 # the following defines the UI
 photo = ImageTk.PhotoImage(image)
-logo_label = Label(image=photo)
-logo_label.image = photo
-logo_label.config(relief = "sunken")
-logo_label.pack( side = LEFT, padx=10, pady=10)
-keep_crecords.pack(side = RIGHT)
-keep_arecords.pack(side = RIGHT)
-upc_calc_checkbutton.pack( side = RIGHT)
+logo_label = Label(frame2, image=photo, relief = "sunken",  padx=10, pady=10 )
+#logo_label.image = photo
+#logo_label.config(relief = "sunken")
+
 open_file_button = Button(frame, text="Select File")
-open_file_button.pack( side = LEFT)
+
 open_file_button.bind('<Button-1>', select_file)
 go_button = Button(frame, text="Convert")
-go_button.pack( side = LEFT)
+open_file_button.flash()
 go_button.bind('<Button-1>', go_convert)
-filefeedback = Label(root, textvariable = var)
-filefeedback.config(relief = "sunken")
-filefeedback.pack(fill = "x", side = BOTTOM)
 
+filefeedback = Label(root, textvariable = var, relief = "sunken")
+#filefeedback.config()
+howto = Label(frame2, text="1) Select File \n2) Choose options \n3) Click convert", justify = LEFT)
+
+# packed into "frame" order defines placement
+open_file_button.pack( side = LEFT) # file selector
+upc_calc_checkbutton.pack( side = LEFT)
+keep_arecords.pack(side = LEFT)
+keep_crecords.pack(side = LEFT)
+go_button.pack( side = LEFT)
+centerpad = Label(frame2, text="To use:", padx=100, justify = RIGHT)
+
+# packed into "frame2" order defines placement
+logo_label.pack(side = LEFT )
+centerpad.pack(side=LEFT)
+howto.pack(side=LEFT)
+
+#main pack for overall look
+frame.pack(fill= "x", side = TOP)
+filefeedback.pack(fill = "x", side = BOTTOM)
+frame2.pack(fill = "x", side = LEFT)
 # execute program
+
 root.mainloop()
