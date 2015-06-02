@@ -22,7 +22,7 @@ crecvarcheck = IntVar() # define "C record" checkbox state variable
 
 
 
-def select_file(event):
+def select_file():
     global filename
     global var
     filename = askopenfilename() #open file select Dialog
@@ -32,7 +32,7 @@ def select_file(event):
         print (filename) + " ready to convert"
 
 
-def go_convert(event):
+def go_convert():
     global filename
     global upcvarcheck
     global arecvarcheck
@@ -59,12 +59,11 @@ logo_label = Label(frame2, image=photo, relief = "sunken",  padx=10, pady=10 )
 #logo_label.image = photo
 #logo_label.config(relief = "sunken")
 
-open_file_button = Button(frame, text="Select File")
+open_file_button = Button(frame, text="Select File", command=select_file) # when button pressed execute select_file
 
-open_file_button.bind('<Button-1>', select_file)
-go_button = Button(frame, text="Convert")
-open_file_button.flash()
-go_button.bind('<Button-1>', go_convert)
+#open_file_button.bind('<Button-1>', select_file)
+go_button = Button(frame, text="Convert", command=go_convert) # when button pressed execute go_convert
+#go_button.bind('<Button-1>', go_convert)
 
 filefeedback = Label(root, textvariable = var, relief = "sunken")
 #filefeedback.config()
