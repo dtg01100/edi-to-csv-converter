@@ -27,9 +27,13 @@ def select_file():
     global var
     filename = askopenfilename() #open file select Dialog
     print (filename)
+    if os.access(filename,os.W_OK) != True and filename != '':
+        tkMessageBox.showerror(title="Error",message="No Write Permissions For Directory") #show error if unable to write to directory
+        filename = '' #set filename to null
     if filename != '':
         var.set(filename) #set file as status contents
         print (filename) + " ready to convert"
+
 
 
 def go_convert():
