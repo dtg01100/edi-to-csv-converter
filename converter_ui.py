@@ -23,6 +23,7 @@ crecvarcheck = IntVar()  # define "C record" checkbox state variable
 cheaderscheck = IntVar()  # define "Column Headers" checkbox state variable
 
 
+
 # todo: file clash handling
 def select_file():
     global filename
@@ -31,21 +32,40 @@ def select_file():
     global conflict_result
     filename = askopenfilename()  # open file select Dialog
     print (filename)
-    if os.access(filename,os.W_OK) != True and filename != '':
-        conflict_result = tkMessageBox.askyesno(title="Error",message="No Write Permissions For Directory\n \
-        Would you like to change output directory?")  # show error if unable to write to directory
-        if conflict_result == True:
-            # prompt for new write directory
-            output = os.path.join(askdirectory() + "/" + os.path.basename(filename) + ".csv")
-            var.set ("Origin Read Only, Exporting To " + (output))  # display new file path in statusbar
-            print ("Now exporting to " + (output))  # write directory to stdout
-        else:
-            var.set ("Origin Read Only. Directory Change Cancelled. Please Select Another File.")
-            filename = ''  # set filename to null
+    output = (filename + ".csv")
+    check_read_error(output)
     if filename != '' and os.access(filename,os.W_OK) != False:
         output = os.path.abspath(filename) + ".csv"
         var.set(filename)  # set file as status contents
         print filename + " ready to convert"
+
+
+def check_read_error(writeerroname):
+    global filename
+    global output
+    file_io_error = "NO"
+    try:
+        open(os.path.abspath(writeerroname), "w")
+    except IOError:
+        file_io_error = "YES"
+    if file_io_error == "YES":
+        conflict_result = tkMessageBox.askyesno(title="Error",message="No Write Permissions For Directory\n \
+        Would you like to change output directory?")  # show error if unable to write to directory
+        if conflict_result == True:
+            # prompt for new write directory
+            new_folder_selection()
+            print ("Now exporting to " + (output))  # write directory to stdout
+            var.set ("Origin Read Only, Exporting To " + (output))  # display new file path in statusbar
+        else:
+            var.set ("Origin Read Only. Directory Change Cancelled. Please Select Another File.")
+            filename = ''  # set filename to null
+            output = '' # set output to null
+
+
+def new_folder_selection():
+    global output
+    output = os.path.join(askdirectory() + "/" + os.path.basename(filename) + ".csv")
+    check_read_error(output)
 
 
 def go_convert():
