@@ -16,6 +16,11 @@ var.set('Select File') # Set initial Status bar status
 frame = Frame(root) # IDK
 frame.pack() #IDK
 
+upcvarcheck = IntVar() # define  "UPC calculation" checkbox state variable
+arecvarcheck = IntVar() # define "A record checkbox state variable
+crecvarcheck = IntVar() # define "C record" checkbox state variable
+
+
 
 def select_file(event):
     global filename
@@ -33,21 +38,19 @@ def go_convert(event):
     global arecvarcheck
     global crecvarcheck
     output = os.path.abspath(filename) + ".csv" 
-    if filename != '':
+    if filename != '': # if there is a file then 
         converter.edi_convert(filename, output, upcvarcheck.get(), arecvarcheck.get(), crecvarcheck.get()) # do conversion
-        print (filename) + " converted"
-        var.set(filename + " Converted. Select next file.")
+        print (filename) + " converted" # print CLI debig string
+        var.set(filename + " Converted. Select next file.") # Set status window String
     else:
-        tkMessageBox.showerror(title="Error",message="No File Selected")
-    filename = ''
+        tkMessageBox.showerror(title="Error",message="No File Selected")  # show error
+    filename = '' # set file back to Null
 
 
-upcvarcheck = IntVar()
-upc_calc_checkbutton = Checkbutton(frame, text="Calculate UPC Check Digit", variable=upcvarcheck, onvalue = '1', offvalue = '0') 
-arecvarcheck = IntVar()
-keep_arecords = Checkbutton(frame, text="Keep \"A\" Records", variable=arecvarcheck, onvalue = '1', offvalue = '0')
-crecvarcheck = IntVar()
-keep_crecords = Checkbutton(frame, text="Keep \"C\" Records", variable=crecvarcheck, onvalue = '1', offvalue = '0')
+
+upc_calc_checkbutton = Checkbutton(frame, text="Calculate UPC Check Digit", variable=upcvarcheck, onvalue = '1', offvalue = '0') #check and set variable of checkbox state
+keep_arecords = Checkbutton(frame, text="Keep \"A\" Records", variable=arecvarcheck, onvalue = '1', offvalue = '0') #check and set variable of checkbox state
+keep_crecords = Checkbutton(frame, text="Keep \"C\" Records", variable=crecvarcheck, onvalue = '1', offvalue = '0') #check and set variable of checkbox state
 
 
 # the following defines the UI
