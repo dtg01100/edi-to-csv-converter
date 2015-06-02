@@ -9,8 +9,8 @@ image = Image.open("logo.jpg") # Replace with company logo (110px * 110px)
 filename = '' #initialize filename Variable
 root = Tk() # initialize UI Window component
 root.title("EDI to CSV converter") # Set Window Title
-root.geometry("650x170") # Set initial window size
-root.minsize(width=650, height=170) # Set window minimal Size
+root.geometry("720x170") # Set initial window size
+root.minsize(width=720, height=170) # Set window minimal Size
 var = StringVar() # Status bar Variable
 var.set('Select File') # Set initial Status bar status
 frame = Frame(root) # Set placement frame
