@@ -5,25 +5,25 @@ from tkFileDialog import askopenfilename
 import tkMessageBox
 from PIL import Image, ImageTk
 
-image = Image.open("logo.jpg")
-filename = ''
-root = Tk()
-root.title("EDI to CSV converter")
-root.geometry("650x170")
-root.minsize(width=650, height=170)
-var = StringVar()
-var.set('Select File')
-frame = Frame(root)
-frame.pack()
+image = Image.open("logo.jpg") # Replace with company logo (110px * 110px)
+filename = '' #initialize filename Variable
+root = Tk() # initialize UI Window component
+root.title("EDI to CSV converter") # Set Window Title
+root.geometry("650x170") # Set initial window size
+root.minsize(width=650, height=170) # Set window minimal Size
+var = StringVar() # Status bar Variable
+var.set('Select File') # Set initial Status bar status
+frame = Frame(root) # IDK
+frame.pack() #IDK
 
 
 def select_file(event):
     global filename
     global var
-    filename = askopenfilename()
+    filename = askopenfilename() #open file select Dialog
     print (filename)
     if filename != '':
-        var.set(filename)
+        var.set(filename) #set file as status contents
         print (filename) + " ready to convert"
 
 
@@ -32,9 +32,9 @@ def go_convert(event):
     global upcvarcheck
     global arecvarcheck
     global crecvarcheck
-    output = os.path.abspath(filename) + ".csv"
+    output = os.path.abspath(filename) + ".csv" 
     if filename != '':
-        converter.edi_convert(filename, output, upcvarcheck.get(), arecvarcheck.get(), crecvarcheck.get())
+        converter.edi_convert(filename, output, upcvarcheck.get(), arecvarcheck.get(), crecvarcheck.get()) # do conversion
         print (filename) + " converted"
         var.set(filename + " Converted. Select next file.")
     else:
@@ -43,13 +43,14 @@ def go_convert(event):
 
 
 upcvarcheck = IntVar()
-upc_calc_checkbutton = Checkbutton(frame, text="Calculate UPC Check Digit", variable=upcvarcheck, onvalue = '1', offvalue = '0')
+upc_calc_checkbutton = Checkbutton(frame, text="Calculate UPC Check Digit", variable=upcvarcheck, onvalue = '1', offvalue = '0') 
 arecvarcheck = IntVar()
 keep_arecords = Checkbutton(frame, text="Keep \"A\" Records", variable=arecvarcheck, onvalue = '1', offvalue = '0')
 crecvarcheck = IntVar()
 keep_crecords = Checkbutton(frame, text="Keep \"C\" Records", variable=crecvarcheck, onvalue = '1', offvalue = '0')
 
 
+# the following defines the UI
 photo = ImageTk.PhotoImage(image)
 logo_label = Label(image=photo)
 logo_label.image = photo
@@ -68,5 +69,5 @@ filefeedback = Label(root, textvariable = var)
 filefeedback.config(relief = "sunken")
 filefeedback.pack(fill = "x", side = BOTTOM)
 
-
+# execute program
 root.mainloop()
