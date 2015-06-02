@@ -23,13 +23,10 @@ crecvarcheck = IntVar()  # define "C record" checkbox state variable
 cheaderscheck = IntVar()  # define "Column Headers" checkbox state variable
 
 
-
-# todo: file clash handling
 def select_file():
     global filename
     global var
     global output
-    global conflict_result
     filename = askopenfilename()  # open file select Dialog
     print (filename)
     output = (filename + ".csv")
@@ -43,29 +40,38 @@ def select_file():
 def check_read_error(writeerroname):
     global filename
     global output
-    file_io_error = "NO"
+    io_error = False
     try:
         open(os.path.abspath(writeerroname), "w")
     except IOError:
-        file_io_error = "YES"
-    if file_io_error == "YES":
-        conflict_result = tkMessageBox.askyesno(title="Error",message="No Write Permissions For Directory\n \
-        Would you like to change output directory?")  # show error if unable to write to directory
-        if conflict_result == True:
-            # prompt for new write directory
-            new_folder_selection()
-            print ("Now exporting to " + (output))  # write directory to stdout
-            var.set ("Origin Read Only, Exporting To " + (output))  # display new file path in statusbar
-        else:
-            var.set ("Origin Read Only. Directory Change Cancelled. Please Select Another File.")
-            filename = ''  # set filename to null
-            output = '' # set output to null
+        io_error = True
+    if repr(os.path.dirname(output)) == "u'/'" or io_error == True or output == '' or output == "''" or\
+                    os.access(output,os.W_OK) != True:
+        file_io_error_handler()
+        print repr(output)
+        print ("Now exporting to " + (output))  # write directory to stdout
+        var.set ("Write Error In Input Directory, Exporting To " + (output))  # display new file path in statusbar
 
 
 def new_folder_selection():
     global output
-    output = os.path.join(askdirectory() + "/" + os.path.basename(filename) + ".csv")
+    global filename
+    output = askdirectory() + "/" + os.path.basename(filename) + ".csv"
     check_read_error(output)
+
+
+def file_io_error_handler():
+    global filename
+    global output
+    conflict_result = tkMessageBox.askyesno(title="Error",message="Write Error In Output Directory.\n \
+    Would you like to change output directory?")  # show error if unable to write to directory
+    if conflict_result == True:
+        # prompt for new write directory
+        new_folder_selection()
+    else:
+        var.set ("Origin Write Error. Directory Change Cancelled. Please Select Another File.")
+        filename = ''  # set filename to null
+        output = '' # set output to null
 
 
 def go_convert():
