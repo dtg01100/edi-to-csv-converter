@@ -22,6 +22,8 @@ crecvarcheck = IntVar() # define "C record" checkbox state variable
 cheaderscheck = IntVar() # define "Column Headers" checkbox state variable
 
 
+#todo: write directory change prompt for permissions error
+#todo: file clash handling
 def select_file():
     global filename
     global var
