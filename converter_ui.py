@@ -10,8 +10,7 @@ filename = '' #initialize filename Variable
 root = Tk() # initialize UI Window component
 root.title("EDI to CSV converter") # Set Window Title
 root.geometry("650x170") # Set initial window size
-#root.minsize(width=650, height=170) # Set window minimal Size
-root.resizable(0,0) # disable window resize
+root.minsize(width=650, height=170) # Set window minimal Size
 var = StringVar() # Status bar Variable
 var.set('Select File') # Set initial Status bar status
 frame = Frame(root) # Set placement frame
