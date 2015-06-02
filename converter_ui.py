@@ -19,7 +19,7 @@ frame2 = Frame(root) # Set placement fram2
 upcvarcheck = IntVar() # define  "UPC calculation" checkbox state variable
 arecvarcheck = IntVar() # define "A record checkbox state variable
 crecvarcheck = IntVar() # define "C record" checkbox state variable
-
+cheaderscheck = IntVar() # define "Column Headers" checkbox state variable
 
 
 def select_file():
@@ -39,7 +39,7 @@ def go_convert():
     global crecvarcheck
     output = os.path.abspath(filename) + ".csv"
     if filename != '': # if there is a file then
-        converter.edi_convert(filename, output, upcvarcheck.get(), arecvarcheck.get(), crecvarcheck.get()) # do conversion
+        converter.edi_convert(filename, output, upcvarcheck.get(), arecvarcheck.get(), crecvarcheck.get(), cheaderscheck.get()) # do conversion
         print (filename) + " converted" # print CLI debig string
         var.set(filename + " Converted. Select next file.") # Set status window String
     else:
@@ -51,6 +51,7 @@ def go_convert():
 upc_calc_checkbutton = Checkbutton(frame, text="Calculate UPC Check Digit", variable=upcvarcheck, onvalue = '1', offvalue = '0') #check and set variable of checkbox state
 keep_arecords = Checkbutton(frame, text="Keep \"A\" Records", variable=arecvarcheck, onvalue = '1', offvalue = '0') #check and set variable of checkbox state
 keep_crecords = Checkbutton(frame, text="Keep \"C\" Records", variable=crecvarcheck, onvalue = '1', offvalue = '0') #check and set variable of checkbox state
+column_headers = Checkbutton(frame, text="Column Headers", variable=cheaderscheck, onvalue = '1', offvalue = '0') #check and set variable of checkbox state
 
 
 # the following defines the UI
@@ -74,6 +75,7 @@ open_file_button.pack( side = LEFT) # file selector
 upc_calc_checkbutton.pack( side = LEFT)
 keep_arecords.pack(side = LEFT)
 keep_crecords.pack(side = LEFT)
+column_headers.pack(side = LEFT)
 go_button.pack( side = LEFT)
 centerpad = Label(frame2, text="To use:", padx=100, justify = RIGHT)
 

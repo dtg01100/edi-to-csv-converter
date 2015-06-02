@@ -2,7 +2,7 @@ import upc_check_digit
 import os
 
 
-def edi_convert(edi_process, output_filename, calc_upc, inc_arec, inc_crec):
+def edi_convert(edi_process, output_filename, calc_upc, inc_arec, inc_crec, inc_headers):
 
     column1 = []
     column2 = []
@@ -16,6 +16,7 @@ def edi_convert(edi_process, output_filename, calc_upc, inc_arec, inc_crec):
     conv_calc_upc = calc_upc
     conv_inc_arec = inc_arec
     conv_inc_crec = inc_crec
+    conv_inc_headers = inc_headers
 
     work_file = open(edi_process)
     work_file_count = open(edi_process)
@@ -106,10 +107,21 @@ def edi_convert(edi_process, output_filename, calc_upc, inc_arec, inc_crec):
             f.write("{}".format(column_prepend[i]))
         f.close()
 
-    if conv_inc_arec != '0':
+    if conv_inc_headers != '0':
+        if conv_inc_arec != '0':
+            f = open(output_filename, "a")
+        else:
+            f = open(output_filename, "w")
+
+        f.write("{}" "," "{}" "," "{}" "," "{}" "," "{}" "," "{}" "," "{}\n".format("UPC", "Qty. Shipped", "Cost", "Description", "Suggested Retail", "Case Pack", "Item Number"))
+        f.close()
+
+
+    if conv_inc_arec != '0' or conv_inc_headers != '0':
         f = open(output_filename, "a")
     else:
         f = open(output_filename, "w")
+
 
     for i in xrange(len(column1)):
         f.write("{}" "," "{}" "," "{}" "," "{}" "," "{}" "," "{}" "," "{}\n".format(column1[i], column7[i], column4[i], column6[i], column2[i], column5[i], column3[i]))
