@@ -1,5 +1,4 @@
 import upc_check_digit
-import os
 
 
 def edi_convert(edi_process, output_filename, calc_upc, inc_arec, inc_crec, inc_headers):
@@ -18,6 +17,7 @@ def edi_convert(edi_process, output_filename, calc_upc, inc_arec, inc_crec, inc_
     conv_inc_crec = inc_crec
     conv_inc_headers = inc_headers
 
+
     work_file = open(edi_process)
     work_file_count = open(edi_process)
     cut_off = sum(1 for line in work_file_count)
@@ -25,7 +25,7 @@ def edi_convert(edi_process, output_filename, calc_upc, inc_arec, inc_crec, inc_
     for line_num, line in enumerate(work_file):
         if line_num < cut_off:
             #print line[1:12]
-            if conv_calc_upc != '1':
+            if conv_calc_upc != 1:
                 column1.append(line[1:12])
             else:
                 column1.append(upc_check_digit.add_check_digit(line[1:12]))
@@ -91,7 +91,7 @@ def edi_convert(edi_process, output_filename, calc_upc, inc_arec, inc_crec, inc_
             column7.append(line[60:62])
     #print (column7)
 
-    if conv_inc_arec != '0':
+    if conv_inc_arec != 0:
         f = open(output_filename, "w")
         work_file = open(edi_process)
         work_file_count = open(edi_process)
@@ -107,8 +107,8 @@ def edi_convert(edi_process, output_filename, calc_upc, inc_arec, inc_crec, inc_
             f.write("{}".format(column_prepend[i]))
         f.close()
 
-    if conv_inc_headers != '0':
-        if conv_inc_arec != '0':
+    if conv_inc_headers != 0:
+        if conv_inc_arec != 0:
             f = open(output_filename, "a")
         else:
             f = open(output_filename, "w")
@@ -117,7 +117,7 @@ def edi_convert(edi_process, output_filename, calc_upc, inc_arec, inc_crec, inc_
         f.close()
 
 
-    if conv_inc_arec != '0' or conv_inc_headers != '0':
+    if conv_inc_arec != 0 or conv_inc_headers != 0:
         f = open(output_filename, "a")
     else:
         f = open(output_filename, "w")
@@ -127,7 +127,7 @@ def edi_convert(edi_process, output_filename, calc_upc, inc_arec, inc_crec, inc_
         f.write("{}" "," "{}" "," "{}" "," "{}" "," "{}" "," "{}" "," "{}\n".format(column1[i], column7[i], column4[i], column6[i], column2[i], column5[i], column3[i]))
     f.close()
 
-    if conv_inc_crec != '0':
+    if conv_inc_crec != 0:
         f = open(output_filename, "a")
 
         work_file = open(edi_process)
