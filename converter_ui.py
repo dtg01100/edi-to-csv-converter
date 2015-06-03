@@ -40,17 +40,19 @@ def select_file():
 def check_read_error(writeerroname):
     global filename
     global output
-    io_error = False
     try:
         open(os.path.abspath(writeerroname), "w")
     except IOError:
         io_error = True
     if repr(os.path.dirname(output)) == "u'/'" or io_error == True or output == '' or output == "''" or\
-                    os.access(output,os.W_OK) != True:
+                    os.access(output,os.W_OK) != True or output == None:
         file_io_error_handler()
-        print repr(output)
-        print ("Now exporting to " + (output))  # write directory to stdout
-        var.set ("Write Error In Input Directory, Exporting To " + (output))  # display new file path in statusbar
+        if output == None or output == '' or output == "''":
+            var.set ("Origin Write Error. Directory Change Cancelled. Please Select Another File.")
+        else:
+            print repr(output)
+            print ("Now exporting to " + (output))  # write directory to stdout
+            var.set ("Write Error In Input Directory, Exporting To " + (output))  # display new file path in statusbar
 
 
 def new_folder_selection():
