@@ -40,6 +40,7 @@ def select_file():
 def check_read_error(writeerroname):
     global filename
     global output
+    io_error = False
     try:
         open(os.path.abspath(writeerroname), "w")
     except IOError:
