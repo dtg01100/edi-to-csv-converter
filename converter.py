@@ -113,7 +113,7 @@ def edi_convert(edi_process, output_filename, calc_upc, inc_arec, inc_crec, inc_
         else:
             f = open(output_filename, "w")
 
-        f.write("{}" "," "{}" "," "{}" "," "{}" "," "{}" "," "{}" "," "{}\n".format("UPC", "Qty. Shipped", "Cost", "Description", "Suggested Retail", "Case Pack", "Item Number"))
+        f.write("{}" "," "{}" "," "{}" "," "{}" "," "{}" "," "{}" "," "{}\n".format("UPC", "Qty. Shipped", "Cost", "Suggested Retail", "Description", "Case Pack", "Item Number"))
         f.close()
 
 
