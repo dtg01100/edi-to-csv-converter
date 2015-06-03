@@ -124,7 +124,7 @@ def edi_convert(edi_process, output_filename, calc_upc, inc_arec, inc_crec, inc_
 
 
     for i in xrange(len(column1)):
-        f.write("{}" "," "{}" "," "{}" "," "{}" "," "{}" "," "{}" "," "{}\n".format(column1[i], column7[i], column4[i], column6[i], column2[i], column5[i], column3[i]))
+        f.write("{}\t" "," "{}\t" "," "{}\t" "," "{}\t" "," "{}" "," "{}\t" "," "{}\t" ",\n".format(column1[i], column7[i], column4[i], column6[i], column2[i], column5[i], column3[i]))
     f.close()
 
     if conv_inc_crec != 0:
