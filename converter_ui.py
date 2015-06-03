@@ -23,17 +23,19 @@ crecvarcheck = IntVar()  # define "C record" checkbox state variable
 cheaderscheck = IntVar()  # define "Column Headers" checkbox state variable
 
 
+#  initial file selection dialog, passes initial generated output file path to write error checker
 def select_file():
     global filename
     global var
     global output
     filename = askopenfilename()  # open file select Dialog
-    if filename != '':
-        print (filename)
-        output = (filename + ".csv")
-        check_write_error(output)
+    if filename != '': # check for cancel/close of file open dialog, and do nothing if that's the case
+        print (filename) #  print input file to stdout
+        output = (filename + ".csv") #  create initial output file path
+        check_write_error(output) #  send output file path to error checker
 
 
+#  the following checks for write errors, passes any to the write error handler
 def check_write_error(writeerroname):
     global filename
     global output
@@ -44,18 +46,19 @@ def check_write_error(writeerroname):
         io_error = True #  if it fails, set this
     if repr(os.path.dirname(output)) == "u'/'" or io_error == True or output == '' or output == "''" or\
                     os.access(output,os.W_OK) != True or output == None: #  check for invalid output path
-        file_io_error_handler()
+        file_io_error_handler() #  call io error handler in event of invalid output
         if output == None or output == '' or output == "''": #  if user closes or cancels folder selection
             var.set ("Origin Write Error. Directory Change Cancelled. Please Select Another File.") #  set statusbar text to this
-        else:
-            print repr(output)
+        else: #  update interface if new output is acceptable
+            #print repr(output) #  print raw value of output directory value
             print ("Now exporting to " + (output))  # write directory to stdout
             var.set ("Write Error In Input Directory, Exporting To " + (output))  # display new file path in statusbar
-    else:
+    else: #  if all is well, update interface
         var.set(filename + " Ready To Convert")  # set file as status contents
-        print filename + " ready to convert"
+        print filename + " ready to convert" #  status to stdout
 
 
+#  the following prompts for directory change, then calls the function to check for write errors
 def new_folder_selection():
     global output
     global filename
@@ -63,6 +66,7 @@ def new_folder_selection():
     check_write_error(output) #  check to see if new output directory is valid
 
 
+#  the following prompts for directory change in the event of write error
 def file_io_error_handler():
     global filename
     global output
@@ -72,8 +76,8 @@ def file_io_error_handler():
         # prompt for new write directory
         new_folder_selection()
     else:
+         #  if user says no, reset status and notify user
         var.set ("Origin Write Error. Directory Change Cancelled. Please Select Another File.")
-         #  if user says no, reset status
         filename = ''  # set filename to null
         output = '' # set output to null
 
@@ -89,7 +93,7 @@ def go_convert():
                               crecvarcheck.get(), cheaderscheck.get())  # do conversion
         print (output) + " converted"  # print CLI debig string
         var.set(output + " Converted. Select next file.")  # Set status window String
-    else:
+    else: #  if user gets ahead of themselves, and clicks this with no file selected.
         tkMessageBox.showerror(title="Error",message="No File Selected")  # show error
     filename = ''  # set file back to Null
 
