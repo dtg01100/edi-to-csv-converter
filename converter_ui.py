@@ -28,39 +28,39 @@ def select_file():
     global var
     global output
     filename = askopenfilename()  # open file select Dialog
-    print (filename)
-    output = (filename + ".csv")
-    check_read_error(output)
-    if filename != '' and os.access(filename,os.W_OK) != False:
-        output = os.path.abspath(filename) + ".csv"
-        var.set(filename)  # set file as status contents
-        print filename + " ready to convert"
+    if filename != '':
+        print (filename)
+        output = (filename + ".csv")
+        check_write_error(output)
 
 
-def check_read_error(writeerroname):
+def check_write_error(writeerroname):
     global filename
     global output
-    io_error = False
+    io_error = False #  define io_error variable
     try:
-        open(os.path.abspath(writeerroname), "w")
+        open(os.path.abspath(writeerroname), "w") #  try to write output file
     except IOError:
-        io_error = True
+        io_error = True #  if it fails, set this
     if repr(os.path.dirname(output)) == "u'/'" or io_error == True or output == '' or output == "''" or\
-                    os.access(output,os.W_OK) != True or output == None:
+                    os.access(output,os.W_OK) != True or output == None: #  check for invalid output path
         file_io_error_handler()
-        if output == None or output == '' or output == "''":
-            var.set ("Origin Write Error. Directory Change Cancelled. Please Select Another File.")
+        if output == None or output == '' or output == "''": #  if user closes or cancels folder selection
+            var.set ("Origin Write Error. Directory Change Cancelled. Please Select Another File.") #  set statusbar text to this
         else:
             print repr(output)
             print ("Now exporting to " + (output))  # write directory to stdout
             var.set ("Write Error In Input Directory, Exporting To " + (output))  # display new file path in statusbar
+    else:
+        var.set(filename + " Ready To Convert")  # set file as status contents
+        print filename + " ready to convert"
 
 
 def new_folder_selection():
     global output
     global filename
-    output = askdirectory() + "/" + os.path.basename(filename) + ".csv"
-    check_read_error(output)
+    output = askdirectory() + "/" + os.path.basename(filename) + ".csv" #  select new output directory
+    check_write_error(output) #  check to see if new output directory is valid
 
 
 def file_io_error_handler():
@@ -73,6 +73,7 @@ def file_io_error_handler():
         new_folder_selection()
     else:
         var.set ("Origin Write Error. Directory Change Cancelled. Please Select Another File.")
+         #  if user says no, reset status
         filename = ''  # set filename to null
         output = '' # set output to null
 
