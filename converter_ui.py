@@ -58,7 +58,7 @@ def check_write_error(writeerroname):
         print filename + " ready to convert" #  status to stdout
 
 
-#  the following prompts for directory change, then calls the function to check for write errors
+#  the following prompts a new directory, then calls the function to check for write errors
 def new_folder_selection():
     global output
     global filename
