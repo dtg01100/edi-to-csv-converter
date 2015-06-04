@@ -9,9 +9,9 @@ from PIL import Image, ImageTk
 image = Image.open("logo.jpg")  # Replace with company logo (110px * 110px)
 filename = ''  # initialize filename Variable
 root = Tk()  # initialize UI Window component
-root.title("EDI to CSV converter 1.0")  # Set Window Title
-root.geometry("720x170")  # Set initial window size
-root.minsize(width=720, height=170)  # Set window minimal Size
+root.title("EDI to CSV converter 1.1")  # Set Window Title
+root.geometry("780x170")  # Set initial window size
+root.minsize(width=780, height=170)  # Set window minimal Size
 var = StringVar()  # Status bar Variable
 var.set('Select File')  # Set initial Status bar status
 frame = Frame(root)  # Set placement frame
@@ -21,7 +21,7 @@ upcvarcheck = IntVar()  # define  "UPC calculation" checkbox state variable
 arecvarcheck = IntVar()  # define "A record checkbox state variable
 crecvarcheck = IntVar()  # define "C record" checkbox state variable
 cheaderscheck = IntVar()  # define "Column Headers" checkbox state variable
-
+ampersandcheck = IntVar() # define "Filter Ampersand" checkbox state variable
 
 #  initial file selection dialog, passes initial generated output file path to write error checker
 def select_file():
@@ -87,10 +87,11 @@ def go_convert():
     global upcvarcheck
     global arecvarcheck
     global crecvarcheck
+    global ampersandcheck
     global output
     if filename != '':  # if there is a file then
         converter.edi_convert(filename, output, upcvarcheck.get(), arecvarcheck.get(),
-                              crecvarcheck.get(), cheaderscheck.get())  # do conversion
+                              crecvarcheck.get(), cheaderscheck.get(),ampersandcheck.get())  # do conversion
         print (output) + " converted"  # print CLI debig string
         var.set(output + " Converted. Select next file.")  # Set status window String
     else: #  if user gets ahead of themselves, and clicks this with no file selected.
@@ -110,6 +111,9 @@ keep_crecords = Checkbutton(frame,
 column_headers = Checkbutton(frame,
                              text="Column Headers", variable=cheaderscheck, onvalue = '1'
                              , offvalue = '0')  # check and set variable of checkbox state
+filter_ampersand = Checkbutton(frame,
+                            text="Replace Ampersand", variable=ampersandcheck, onvalue = '1'
+                            , offvalue = '0')
 
 
 # the following defines the UI
@@ -134,6 +138,7 @@ upc_calc_checkbutton.pack( side = LEFT)
 keep_arecords.pack(side = LEFT)
 keep_crecords.pack(side = LEFT)
 column_headers.pack(side = LEFT)
+filter_ampersand.pack( side = LEFT)
 go_button.pack( side = RIGHT)
 centerpad = Label(frame2, text="To use:", padx=100, justify = RIGHT)
 

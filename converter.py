@@ -1,7 +1,7 @@
 import upc_check_digit
 
 
-def edi_convert(edi_process, output_filename, calc_upc, inc_arec, inc_crec, inc_headers):
+def edi_convert(edi_process, output_filename, calc_upc, inc_arec, inc_crec, inc_headers, filter_ampersand):
 
     column1 = []
     column2 = []
@@ -16,6 +16,7 @@ def edi_convert(edi_process, output_filename, calc_upc, inc_arec, inc_crec, inc_
     conv_inc_arec = inc_arec
     conv_inc_crec = inc_crec
     conv_inc_headers = inc_headers
+    conv_filter_ampersand = filter_ampersand
 
 
     work_file = open(edi_process)
@@ -38,7 +39,11 @@ def edi_convert(edi_process, output_filename, calc_upc, inc_arec, inc_crec, inc_
     for line_num, line in enumerate(work_file):
         if line_num < cut_off:
             #print line[12:37]
-            column2.append(line[12:37])
+            if filter_ampersand != 0:
+                linetemp = line[12:37]
+                column2.append(linetemp.replace("&","AND"))
+            else:
+                column2.append(line[12:37])
     #print (column2)
 
     work_file = open(edi_process)
