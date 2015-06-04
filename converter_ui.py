@@ -6,7 +6,13 @@ from tkFileDialog import askdirectory
 import tkMessageBox
 from PIL import Image, ImageTk
 
-image = Image.open("logo.jpg")  # Replace with company logo (110px * 110px)
+logo_io_error = False
+try:
+    open("logo.jpg") #  try to write output file
+except IOError:
+    logo_io_error = True #  if it fails, set this
+if logo_io_error == False:
+    image = Image.open("logo.jpg")  # Replace with company logo (110px * 110px)
 filename = ''  # initialize filename Variable
 root = Tk()  # initialize UI Window component
 root.title("EDI to CSV converter 1.1")  # Set Window Title
@@ -117,8 +123,9 @@ filter_ampersand = Checkbutton(frame,
 
 
 # the following defines the UI
-photo = ImageTk.PhotoImage(image)
-logo_label = Label(frame2, image=photo, relief = "sunken",  padx=10, pady=10 )
+if logo_io_error == False:
+    photo = ImageTk.PhotoImage(image)
+    logo_label = Label(frame2, image=photo, relief = "sunken",  padx=10, pady=10 )
 # logo_label.image = photo
 # logo_label.config(relief = "sunken")
 
@@ -143,7 +150,8 @@ go_button.pack( side = RIGHT)
 centerpad = Label(frame2, text="To use:", padx=100, justify = RIGHT)
 
 # packed into "frame2" order defines placement
-logo_label.pack(side = LEFT )
+if logo_io_error == False:
+    logo_label.pack(side = LEFT )
 centerpad.pack(side=LEFT)
 howto.pack(side=LEFT)
 
