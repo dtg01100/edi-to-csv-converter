@@ -61,7 +61,8 @@ def edi_convert(edi_process, output_filename, calc_upc, inc_arec, inc_crec, inc_
         else:
             f = open(output_filename, "w")
 
-        f.write("{}" "," "{}" "," "{}" "," "{}" "," "{}" "," "{}" "," "{}\n".format("UPC", "Qty. Shipped", "Cost", "Suggested Retail", "Description", "Case Pack", "Item Number"))
+        f.write("{}" "," "{}" "," "{}" "," "{}" "," "{}" "," "{}" "," "{}\n".format("UPC", "Qty. Shipped", "Cost",
+                "Suggested Retail", "Description", "Case Pack", "Item Number"))
         f.close()
 
     if conv_inc_arec != 0 or conv_inc_headers != 0:
@@ -70,7 +71,8 @@ def edi_convert(edi_process, output_filename, calc_upc, inc_arec, inc_crec, inc_
         f = open(output_filename, "w")
 
     for i in xrange(len(column1)):
-        f.write("{}\t" "," "{}\t" "," "{}\t" "," "{}\t" "," "{}" "," "{}\t" "," "{}\t" ",\n".format(column1[i], column7[i], column4[i], column6[i], column2[i], column5[i], column3[i]))
+        f.write("{}\t" "," "{}\t" "," "{}\t" "," "{}\t" "," "{}" "," "{}\t" "," "{}\t" ",\n".format(column1[i],
+                column7[i], column4[i], column6[i], column2[i], column5[i], column3[i]))
     f.close()
 
     if conv_inc_crec != 0:
