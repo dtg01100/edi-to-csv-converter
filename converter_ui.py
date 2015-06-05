@@ -59,9 +59,11 @@ def check_write_error(writeerroname):
             #print repr(output) #  print raw value of output directory value
             print ("Now exporting to " + (output))  # write directory to stdout
             var.set ("Write Error In Input Directory, Exporting To " + (output))  # display new file path in statusbar
+            go_button.configure(state=ACTIVE)
     else: #  if all is well, update interface
         var.set(filename + " Ready To Convert")  # set file as status contents
         print filename + " ready to convert" #  status to stdout
+        go_button.configure(state=ACTIVE)
 
 
 #  the following prompts a new directory, then calls the function to check for write errors
@@ -100,6 +102,7 @@ def go_convert():
                               crecvarcheck.get(), cheaderscheck.get(),ampersandcheck.get())  # do conversion
         print (output) + " converted"  # print CLI debig string
         var.set(output + " Converted. Select next file.")  # Set status window String
+        go_button.configure(state=DISABLED)
     else: #  if user gets ahead of themselves, and clicks this with no file selected.
         tkMessageBox.showerror(title="Error",message="No File Selected")  # show error
     filename = ''  # set file back to Null
@@ -132,7 +135,7 @@ if logo_io_error == False:
 open_file_button = Button(frame, text="Select File", command=select_file) # when button pressed execute select_file
 
  # open_file_button.bind('<Button-1>', select_file)
-go_button = Button(frame, text="Convert", command=go_convert) # when button pressed execute go_convert
+go_button = Button(frame, text="Convert", command=go_convert, state=DISABLED) # when button pressed execute go_convert
  # go_button.bind('<Button-1>', go_convert)
 
 filefeedback = Label(root, textvariable = var, relief = "sunken")
