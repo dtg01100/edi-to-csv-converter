@@ -16,9 +16,6 @@ def edi_convert(edi_process, output_filename, calc_upc, inc_arec, inc_crec, inc_
     conv_inc_arec = inc_arec
     conv_inc_crec = inc_crec
     conv_inc_headers = inc_headers
-    conv_filter_ampersand = filter_ampersand
-
-
     work_file = open(edi_process)
     work_file_count = open(edi_process)
     cut_off = sum(1 for line in work_file_count)
