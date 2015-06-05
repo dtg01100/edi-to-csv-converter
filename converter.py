@@ -23,14 +23,14 @@ def edi_convert(edi_process, output_filename, calc_upc, inc_arec, inc_crec, inc_
 
     for line_num, line in enumerate(work_file):
         if line_num < cut_off:
-            #print line[1:12]
+            # print line[1:12]
             if conv_calc_upc != 1:
                 column1.append(line[1:12])
             else:
                 column1.append(upc_check_digit.add_check_digit(line[1:12]))
             if filter_ampersand != 0:
                 linetemp = line[12:37]
-                column2.append(linetemp.replace("&","AND"))
+                column2.append(linetemp.replace("&", "AND"))
             else:
                 column2.append(line[12:37])
             column3.append(line[38:43])
@@ -47,9 +47,9 @@ def edi_convert(edi_process, output_filename, calc_upc, inc_arec, inc_crec, inc_
         work_file = [n for n in work_file.readlines() if not n.startswith('B') if not n.startswith('C')]
         for line_num, line in enumerate(work_file):
             if line_num < cut_off:
-                #print line[:]
+                # print line[:]
                 column_prepend.append(line[:])
-        #print (column_prepend)
+        # print (column_prepend)
         f.seek(0, 0)
         for i in xrange(len(column_prepend)):
             f.write("{}".format(column_prepend[i]))
@@ -64,12 +64,10 @@ def edi_convert(edi_process, output_filename, calc_upc, inc_arec, inc_crec, inc_
         f.write("{}" "," "{}" "," "{}" "," "{}" "," "{}" "," "{}" "," "{}\n".format("UPC", "Qty. Shipped", "Cost", "Suggested Retail", "Description", "Case Pack", "Item Number"))
         f.close()
 
-
     if conv_inc_arec != 0 or conv_inc_headers != 0:
         f = open(output_filename, "a")
     else:
         f = open(output_filename, "w")
-
 
     for i in xrange(len(column1)):
         f.write("{}\t" "," "{}\t" "," "{}\t" "," "{}\t" "," "{}" "," "{}\t" "," "{}\t" ",\n".format(column1[i], column7[i], column4[i], column6[i], column2[i], column5[i], column3[i]))
@@ -84,9 +82,9 @@ def edi_convert(edi_process, output_filename, calc_upc, inc_arec, inc_crec, inc_
         work_file = [n for n in work_file.readlines() if not n.startswith('A') if not n.startswith('B')]
         for line_num, line in enumerate(work_file):
             if line_num < cut_off:
-                #print line[1:14] + " " + line[33:35] + "." + line[35:-2]
+                # print line[1:14] + " " + line[33:35] + "." + line[35:-2]
                 column_append.append(line[:1] + " " + line[1:14] + " " + line[-5:-3] + "." + line[-3:-1])
-        #print (column_append)
+        # print (column_append)
         f.seek(0, 0)
         for i in xrange(len(column_append)):
             f.write("{}".format(column_append[i]))
