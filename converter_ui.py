@@ -7,12 +7,12 @@ import tkMessageBox
 from PIL import Image, ImageTk
 
 logo_io_error = False
+image = None
+logo_label = None
 try:
-    open("logo.jpg") #  try to write output file
+    image = Image.open("logo.jpg")  # Replace with company logo (110px * 110px)
 except IOError:
     logo_io_error = True #  if it fails, set this
-if logo_io_error == False:
-    image = Image.open("logo.jpg")  # Replace with company logo (110px * 110px)
 filename = ''  # initialize filename Variable
 root = Tk()  # initialize UI Window component
 root.title("EDI to CSV converter 1.1")  # Set Window Title
