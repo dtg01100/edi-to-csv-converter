@@ -19,7 +19,7 @@ def edi_convert(edi_process, output_filename, calc_upc, inc_arec, inc_crec, inc_
     work_file = open(edi_process)
     work_file_count = open(edi_process)
     cut_off = sum(1 for line in work_file_count)
-    work_file = [n for n in work_file.readlines() if not n.startswith('A') if not n.startswith('C')]
+    work_file = [n for n in work_file.readlines() if n.startswith('B')]
 
     for line_num, line in enumerate(work_file):
         if line_num < cut_off:
@@ -44,7 +44,7 @@ def edi_convert(edi_process, output_filename, calc_upc, inc_arec, inc_crec, inc_
         work_file = open(edi_process)
         work_file_count = open(edi_process)
         cut_off = sum(1 for line in work_file_count)
-        work_file = [n for n in work_file.readlines() if not n.startswith('B') if not n.startswith('C')]
+        work_file = [n for n in work_file.readlines() if n.startswith('A')]
         for line_num, line in enumerate(work_file):
             if line_num < cut_off:
                 # print line[:]
@@ -81,7 +81,7 @@ def edi_convert(edi_process, output_filename, calc_upc, inc_arec, inc_crec, inc_
         work_file = open(edi_process)
         work_file_count = open(edi_process)
         cut_off = sum(1 for line in work_file_count)
-        work_file = [n for n in work_file.readlines() if not n.startswith('A') if not n.startswith('B')]
+        work_file = [n for n in work_file.readlines() if n.startswith('C')]
         for line_num, line in enumerate(work_file):
             if line_num < cut_off:
                 # print line[1:14] + " " + line[33:35] + "." + line[35:-2]
