@@ -164,7 +164,8 @@ frame2.pack(fill="x", side=LEFT)
 
 # set window minimum size to prevent user making it ugly
 root.update()  # update window geometry
-root.minsize(root.winfo_width(),root.winfo_height())  # don't allow window to be resized smaller than current dimensions
+# don't allow window to be resized smaller than current dimensions
+root.minsize(root.winfo_width(), root.winfo_height())
 
 # execute program
 root.mainloop()
