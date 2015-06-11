@@ -16,7 +16,7 @@ except IOError:
     logo_io_error = True  # if it fails, set this
 filename = ''  # initialize filename Variable
 root = Tk()  # initialize UI Window component
-root.title("EDI to CSV converter 1.1")  # Set Window Title
+root.title("EDI to CSV converter 1.3")  # Set Window Title
 var = StringVar()  # Status bar Variable
 var.set('Select File')  # Set initial Status bar status
 frame = Frame(root)  # Set placement frame
