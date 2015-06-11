@@ -129,7 +129,7 @@ filter_ampersand = Checkbutton(frame,
 # the following defines the UI
 if logo_io_error is False:
     photo = ImageTk.PhotoImage(image)
-    logo_label = Label(frame2, image=photo, relief="sunken",  padding=5)
+    logo_label = Label(frame2, image=photo, padding=5)
 # logo_label.image = photo
 # logo_label.config(relief = "sunken")
 
