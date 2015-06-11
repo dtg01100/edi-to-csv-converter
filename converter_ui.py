@@ -16,8 +16,6 @@ except IOError:
 filename = ''  # initialize filename Variable
 root = Tk()  # initialize UI Window component
 root.title("EDI to CSV converter 1.1")  # Set Window Title
-root.geometry("780x170")  # Set initial window size
-root.minsize(width=780, height=170)  # Set window minimal Size
 var = StringVar()  # Status bar Variable
 var.set('Select File')  # Set initial Status bar status
 frame = Frame(root)  # Set placement frame
@@ -163,6 +161,10 @@ how_to.pack(side=LEFT)
 frame.pack(fill="x", side=TOP)
 file_feedback.pack(fill="x", side=BOTTOM)
 frame2.pack(fill="x", side=LEFT)
-# execute program
 
+# set window minimum size to prevent user making it ugly
+root.update()  # update window geometry
+root.minsize(root.winfo_width(),root.winfo_height())  # don't allow window to be resized smaller than current dimensions
+
+# execute program
 root.mainloop()
