@@ -1,6 +1,7 @@
 import converter
 import os
 from Tkinter import *
+from ttk import *
 from tkFileDialog import askopenfilename
 from tkFileDialog import askdirectory
 import tkMessageBox
@@ -128,7 +129,7 @@ filter_ampersand = Checkbutton(frame,
 # the following defines the UI
 if logo_io_error is False:
     photo = ImageTk.PhotoImage(image)
-    logo_label = Label(frame2, image=photo, relief="sunken",  padx=10, pady=10)
+    logo_label = Label(frame2, image=photo, relief="sunken",  padding=5)
 # logo_label.image = photo
 # logo_label.config(relief = "sunken")
 
@@ -142,23 +143,23 @@ file_feedback = Label(root, textvariable=var, relief="sunken")
 how_to = Label(frame2, text="1) Select File \n2) Choose options \n3) Click convert", justify=LEFT)
 
 # packed into "frame" order defines placement
-open_file_button.pack(side=LEFT)  # file selector
+open_file_button.pack(side=LEFT,)  # file selector
 upc_calc_checkbutton.pack(side=LEFT)
 keep_a_records.pack(side=LEFT)
 keep_c_records.pack(side=LEFT)
 column_headers.pack(side=LEFT)
 filter_ampersand.pack(side=LEFT)
 go_button.pack(side=RIGHT)
-center_pad = Label(frame2, text="To use:", padx=100, justify=RIGHT)
+center_pad = Label(frame2, text="To use:", justify=RIGHT)
 
 # packed into "frame2" order defines placement
 if logo_io_error is False:
     logo_label.pack(side=LEFT)
-center_pad.pack(side=LEFT)
+center_pad.pack(ipadx=100, side=LEFT)
 how_to.pack(side=LEFT)
 
 # main pack for overall look
-frame.pack(fill="x", side=TOP)
+frame.pack(fill="x", ipady=2, side=TOP)
 file_feedback.pack(fill="x", side=BOTTOM)
 frame2.pack(fill="x", side=LEFT)
 
