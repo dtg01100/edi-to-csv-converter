@@ -18,25 +18,17 @@ try:
 except IOError:
     print("Can't load branding image")
     logo_io_error = True  # if it fails, set this
-if platform.system() == "Windows":
-    try:
-        open('icon.ico')
-    except IOError:
-        print("Can't load window icon")  # print message if it fails
-        window_icon_io_error = True
-else:
-    try:
-        open('icon.xbm')
-    except IOError:
-        print("Can't load window icon")  # print message if it fails
-        window_icon_io_error = True
 filename = ''  # initialize filename Variable
 root = Tk()  # initialize UI Window component
 root.title("EDI to CSV converter 1.3")  # Set Window Title
-if window_icon_io_error is False and platform.system() == "Windows":
-    root.wm_iconbitmap('icon.ico')
-else:
-    root.wm_iconbitmap('icon.xbm')
+try:
+    window_icon_image = Image.open('icon.png')
+except IOError:
+    print ("Can't load window icon")
+    window_icon_io_error = True
+if window_icon_io_error is False:
+    window_icon = ImageTk.PhotoImage(window_icon_image)
+    root.tk.call('wm', 'iconphoto', root._w, window_icon) #  set window icon (will need to research how this works)
 var = StringVar()  # Status bar Variable
 var.set('Select File')  # Set initial Status bar status
 frame = Frame(root)  # Set placement frame
