@@ -13,22 +13,25 @@ image = None
 logo_label = None
 window_icon = None
 window_icon_image = None
+# try to load icons, handle image load errors
 try:
     image = Image.open('logo.png')  # Replace with company logo (110px * 110px)
 except IOError:
     print("Can't load branding image")
     logo_io_error = True  # if it fails, set this
-filename = ''  # initialize filename Variable
-root = Tk()  # initialize UI Window component
-root.title("EDI to CSV converter 1.3")  # Set Window Title
 try:
     window_icon_image = Image.open('icon.png')
 except IOError:
     print ("Can't load window icon")
     window_icon_io_error = True
+
+filename = ''  # initialize filename Variable
+root = Tk()  # initialize UI Window component
+root.title("EDI to CSV converter 1.3")  # Set Window Title
 if window_icon_io_error is False:
     window_icon = ImageTk.PhotoImage(window_icon_image)
     root.tk.call('wm', 'iconphoto', root._w, window_icon)  # set window icon (will need to research how this works)
+
 var = StringVar()  # Status bar Variable
 var.set('Select File')  # Set initial Status bar status
 frame = Frame(root)  # Set placement frame
