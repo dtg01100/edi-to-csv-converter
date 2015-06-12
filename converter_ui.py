@@ -27,7 +27,7 @@ except IOError:
 
 filename = ''  # initialize filename Variable
 root = Tk()  # initialize UI Window component
-root.title("EDI to CSV converter 1.3")  # Set Window Title
+root.title("EDI to CSV converter 1.4")  # Set Window Title
 if window_icon_io_error is False:
     window_icon = ImageTk.PhotoImage(window_icon_image)
     root.tk.call('wm', 'iconphoto', root._w, window_icon)  # set window icon (will need to research how this works)
