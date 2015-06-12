@@ -22,21 +22,25 @@ def edi_convert(edi_process, output_filename, calc_upc, inc_arec, inc_crec, inc_
             f.write(line)  # write "A" line
         # the following block writes "B" lines, dependent on filter and convert settings
 
+        # if convert upc codes and filter ampersands are not checked
         if line.startswith("B") and conv_calc_upc != 1 and filter_ampersand != 1:
             f.write("{}\t" "," "{}\t" "," "{}\t" "," "{}\t" "," "{}" "," "{}\t" "," "{}\t" ",\n".format
                     (line[1:12], line[60:62], line[45:47] + "." + line[47:49], line[63:65] + "." + line[65:67],
                      line[12:37], line[55:57], line[38:43]))
 
+        # if convert upc codes is checked and filter ampersands is not checked
         elif line.startswith("B") and conv_calc_upc != 0 and filter_ampersand != 1:
             f.write("{}\t" "," "{}\t" "," "{}\t" "," "{}\t" "," "{}" "," "{}\t" "," "{}\t" ",\n".format
                     (upc_check_digit.add_check_digit(line[1:12]), line[60:62], line[45:47] + "." + line[47:49],
                      line[63:65] + "." + line[65:67], line[12:37], line[55:57], line[38:43]))
 
+        # if convert upc codes is not checked and filter ampersands is checked
         elif line.startswith("B") and conv_calc_upc != 1 and filter_ampersand != 0:
             f.write("{}\t" "," "{}\t" "," "{}\t" "," "{}\t" "," "{}" "," "{}\t" "," "{}\t" ",\n".format
                     (line[1:12], line[60:62], line[45:47] + "." + line[47:49], line[63:65] + "." + line[65:67],
                      line.replace("&", "AND")[12:37], line[55:57], line[38:43]))
 
+        # if convert upc codes and filter ampersands are checked
         elif line.startswith("B") and conv_calc_upc != 0 and filter_ampersand != 0:
             f.write("{}\t" "," "{}\t" "," "{}\t" "," "{}\t" "," "{}" "," "{}\t" "," "{}\t" ",\n".format
                     (upc_check_digit.add_check_digit(line[1:12]), line[60:62], line[45:47] + "." + line[47:49],
