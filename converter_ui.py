@@ -6,6 +6,7 @@ from tkFileDialog import askopenfilename
 from tkFileDialog import askdirectory
 import tkMessageBox
 from PIL import Image, ImageTk
+import platform
 
 logo_io_error = False
 window_icon_io_error = False
@@ -17,16 +18,25 @@ try:
 except IOError:
     print("Can't load branding image")
     logo_io_error = True  # if it fails, set this
-try:
-    open('icon.ico')
-except IOError:
-    print("Can't load window icon")  # print message if it fails
-    window_icon_io_error = True
+if platform.system() == "Windows":
+    try:
+        open('icon.ico')
+    except IOError:
+        print("Can't load window icon")  # print message if it fails
+        window_icon_io_error = True
+else:
+    try:
+        open('icon.xbm')
+    except IOError:
+        print("Can't load window icon")  # print message if it fails
+        window_icon_io_error = True
 filename = ''  # initialize filename Variable
 root = Tk()  # initialize UI Window component
 root.title("EDI to CSV converter 1.3")  # Set Window Title
-if window_icon_io_error is False:
+if window_icon_io_error is False and platform.system() == "Windows":
     root.wm_iconbitmap('icon.ico')
+else:
+    root.wm_iconbitmap('icon.xbm')
 var = StringVar()  # Status bar Variable
 var.set('Select File')  # Set initial Status bar status
 frame = Frame(root)  # Set placement frame
