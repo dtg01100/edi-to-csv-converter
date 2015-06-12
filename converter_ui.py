@@ -14,7 +14,7 @@ image = None
 logo_label = None
 window_icon = None
 try:
-    image = Image.open('logo.jpg')  # Replace with company logo (110px * 110px)
+    image = Image.open('logo.png')  # Replace with company logo (110px * 110px)
 except IOError:
     print("Can't load branding image")
     logo_io_error = True  # if it fails, set this
