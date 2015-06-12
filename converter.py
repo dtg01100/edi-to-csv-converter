@@ -20,35 +20,18 @@ def edi_convert(edi_process, output_filename, calc_upc, inc_arec, inc_crec, inc_
 
         if line.startswith("A") and conv_inc_arec != 0:  # if include "A" records flag is set and line starts with "A"
             f.write(line)  # write "A" line
+
         # the following block writes "B" lines, dependent on filter and convert settings
+        # ternary conditional operator: puts if-then-else statement in one line
+        # syntax: <expression1> if <condition> else <expression2>
+        # needs to be wrapped an parenthesis to separate statements
 
-        # if convert upc codes and filter ampersands are not checked
-        if line.startswith("B") and conv_calc_upc != 1 and filter_ampersand != 1:
+        if line.startswith("B"):
             f.write("{}\t" "," "{}\t" "," "{}\t" "," "{}\t" "," "{}" "," "{}\t" "," "{}\t" ",\n".format
-                    (line[1:12], line[60:62], line[45:47] + "." + line[47:49], line[63:65] + "." + line[65:67],
-                     line[12:37], line[55:57], line[38:43]))
-            # write line without upc code conversion and without ampersand filtering
-
-        # if convert upc codes is checked and filter ampersands is not checked
-        elif line.startswith("B") and conv_calc_upc != 0 and filter_ampersand != 1:
-            f.write("{}\t" "," "{}\t" "," "{}\t" "," "{}\t" "," "{}" "," "{}\t" "," "{}\t" ",\n".format
-                    (upc_check_digit.add_check_digit(line[1:12]), line[60:62], line[45:47] + "." + line[47:49],
-                     line[63:65] + "." + line[65:67], line[12:37], line[55:57], line[38:43]))
-            # write line with upc code conversion and without ampersand filtering
-
-        # if convert upc codes is not checked and filter ampersands is checked
-        elif line.startswith("B") and conv_calc_upc != 1 and filter_ampersand != 0:
-            f.write("{}\t" "," "{}\t" "," "{}\t" "," "{}\t" "," "{}" "," "{}\t" "," "{}\t" ",\n".format
-                    (line[1:12], line[60:62], line[45:47] + "." + line[47:49], line[63:65] + "." + line[65:67],
-                     line.replace("&", "AND")[12:37], line[55:57], line[38:43]))
-            # write line without upc code conversion and with ampersand filtering
-
-        # if convert upc codes and filter ampersands are checked
-        elif line.startswith("B") and conv_calc_upc != 0 and filter_ampersand != 0:
-            f.write("{}\t" "," "{}\t" "," "{}\t" "," "{}\t" "," "{}" "," "{}\t" "," "{}\t" ",\n".format
-                    (upc_check_digit.add_check_digit(line[1:12]), line[60:62], line[45:47] + "." + line[47:49],
-                     line[63:65] + "." + line[65:67], line.replace("&", "AND")[12:37], line[55:57], line[38:43]))
-            # write line with upc code conversion and with ampersand filtering
+                    ((upc_check_digit.add_check_digit(line[1:12]) if conv_calc_upc != 0 else line[1:12]),
+                     line[60:62], line[45:47] + "." + line[47:49], line[63:65] + "." + line[65:67],
+                     (line.replace("&", "AND")[12:37] if filter_ampersand != 0 else line[12:37]),
+                     line[55:57], line[38:43]))
 
         if line.startswith("C") and conv_inc_crec != 0:  # if include "C" records flag is set and line starts with "C"
             f.write(line)  # write "C" line
