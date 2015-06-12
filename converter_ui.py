@@ -6,13 +6,13 @@ from tkFileDialog import askopenfilename
 from tkFileDialog import askdirectory
 import tkMessageBox
 from PIL import Image, ImageTk
-import platform
 
 logo_io_error = False
 window_icon_io_error = False
 image = None
 logo_label = None
 window_icon = None
+window_icon_image = None
 try:
     image = Image.open('logo.png')  # Replace with company logo (110px * 110px)
 except IOError:
@@ -28,7 +28,7 @@ except IOError:
     window_icon_io_error = True
 if window_icon_io_error is False:
     window_icon = ImageTk.PhotoImage(window_icon_image)
-    root.tk.call('wm', 'iconphoto', root._w, window_icon) #  set window icon (will need to research how this works)
+    root.tk.call('wm', 'iconphoto', root._w, window_icon)  # set window icon (will need to research how this works)
 var = StringVar()  # Status bar Variable
 var.set('Select File')  # Set initial Status bar status
 frame = Frame(root)  # Set placement frame
