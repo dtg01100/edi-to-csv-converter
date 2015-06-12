@@ -8,20 +8,29 @@ import tkMessageBox
 from PIL import Image, ImageTk
 
 logo_io_error = False
+window_icon_io_error = False
 image = None
 logo_label = None
+window_icon = None
 try:
-    image = Image.open("logo.jpg")  # Replace with company logo (110px * 110px)
+    image = Image.open('logo.jpg')  # Replace with company logo (110px * 110px)
 except IOError:
+    print("Can't load branding image")
     logo_io_error = True  # if it fails, set this
+try:
+    open('icon.ico')
+except IOError:
+    print("Can't load window icon")  # print message if it fails
+    window_icon_io_error = True
 filename = ''  # initialize filename Variable
 root = Tk()  # initialize UI Window component
 root.title("EDI to CSV converter 1.3")  # Set Window Title
+if window_icon_io_error is False:
+    root.wm_iconbitmap('icon.ico')
 var = StringVar()  # Status bar Variable
 var.set('Select File')  # Set initial Status bar status
 frame = Frame(root)  # Set placement frame
 frame2 = Frame(root)  # Set placement fram2
-
 upc_var_check = IntVar()  # define  "UPC calculation" checkbox state variable
 a_rec_var_check = IntVar()  # define "A record checkbox state variable
 c_rec_var_check = IntVar()  # define "C record" checkbox state variable
